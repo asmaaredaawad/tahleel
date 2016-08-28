@@ -1,0 +1,6 @@
+$(function () {
+	$('#national_id').on('blur', function(e) {
+                    console.log('hi');
+                )};
+
+})

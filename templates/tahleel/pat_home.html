@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+        {% load staticfiles %}
+        <meta charset="utf-8">
+        <title>Maqal</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        
+        <link ='{% static "http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" %}' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+        <link rel="stylesheet" href="{% static 'css/templatemo_style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/templatemo_misc.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+        <link rel="stylesheet" href="{% static 'css/testimonails-slider.css' %}">
+         <script src="{% static 'js/jquery.min.js' %}"/>
+          <script src="{% static 'js/bootstrap.js' %}"/>
+
+          
+          <script type="text/javascript">
+            $(document).ready(function ($) {
+              console.log('hello');
+                $('#tabs').tab();
+            });
+          </script>
+        <style type="text/css">
+        body{
+            background-color: #e6ffcc;
+            
+        }
+        .all{
+            width: 800px;
+            height: 730px;
+            border: 2px solid;
+            border-radius: 25px;
+            display: block;
+            vertical-align: center;
+            margin-left: 250px;
+            background-color: #f2f2f2;
+        }
+        .login{
+                color: #003300;
+                font-size: 22px;
+                font-weight: bold;
+                font-style: oblique;
+                line-height: 29px;
+                margin-top: 40px;
+                margin-bottom: 20px;
+                /* margin-left: 10px; */
+                width: 450px;
+                word-spacing: -1px;
+            }
+            img{
+                width: 100%;
+                height: 100%;
+
+            }
+            .image{
+                margin-left: 820px;
+            }
+            #emp,#pat{
+                margin-left: 100px;
+                margin-bottom: 10px;
+                margin-top: 40px;
+
+                width: 150px;
+
+            }
+            .ayhaga{
+                margin-left: 100px;
+                margin-top: 40px;
+                color: #0e385f;
+                font-size: 20px;
+                font-weight: bold;
+                line-height: 29px;
+                width: 450px;
+                word-spacing: -1px;
+            }
+            .analysis{
+                color: #00cc66;
+                font-size: 20px;
+
+            }
+            #blood{
+              margin-top: 40px;
+            }
+            .table{
+              width: 60%;
+              height: 50px;
+            }
+            #footer {
+              height: 50px;
+              background-color: black;
+              display: block;
+            }
+            
+        </style>
+    </head>
+
+ <!-- ################################################# -->
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Tahleel</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Our Services</a></li> 
+      <li><a href="#">Contact Us</a></li> 
+    </ul>
+  </div>
+</nav>
+    <div class='login' align="center">Welcome To Our Lab (Tahleel) </div>
+
+<div class="all">
+<!-- /############################################################################ -->
+<div class="container">
+    <table class="table table-hover table-bordered table-inverse">
+    <div class='login' align="center">*Personal Information About Patient</div>
+    <thead class="thead-inverse">
+      <tr>
+        <th>Patient Name</th>
+        <th>Address</th>
+        <th>National_id</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="success">
+      {% for patient in patient %}
+       
+        <td>{{patient.name}}</td>
+        <td>{{patient.address}}</td>
+        <td>{{patient.national_id}}</td>
+        
+      {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+                  
+</div>
+
+<div class="container">
+    
+    <div class='login' align="center">*Medical Information About Patient</div>
+
+    <div class="analysis"><b>Liver Analysis(تحليل الكبد)</b></div>
+    {% if liver  %}
+    <table class="table table-hover table-bordered table-inverse">
+    <thead>
+      <tr>
+        <th>Albumin</th>
+        <th>SGPT</th>
+        <th>SGOT</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+         {% for liver in liver %}
+      <tr class="success">
+        <td>{{liver.Albumin}} GM/Liter
+        {% if liver.Albumin <= 5 and  liver.Albumin >= 3 %}
+        <span class='glyphicon glyphicon-ok'><font color="#ff3300"></font>(المعدل الطبيعى)</span>
+        {%endif%}
+        {% if liver.Albumin > 5 %}
+        <span class='glyphicon glyphicon-arrow-up'><font color="red">(مرتفع)</font></span>
+        {%else%}
+        <span class='glyphicon glyphicon-arrow-down'><font color="red">(منخفض)</font></span>
+        {%endif%}               
+
+        </td>
+
+        <td>{{liver.SGPT}} Unit
+        {% if liver.SGPT <= 45 and  liver.SGPT >= 0 %}
+        <span class='glyphicon glyphicon-ok'><font color="#ff3300"></font>(المعدل الطبيعى)</span>
+        {%endif%}
+        {% if liver.SGPT > 45 %}
+        <span class='glyphicon glyphicon-arrow-up'><font color="red">(مرتفع)</font></span>
+        {%endif%}  
+         {% if liver.SGPT < 0 %}
+        <span class='glyphicon glyphicon-arrow-down'><font color="red">(منخفض)</font></span>
+        {%endif%}    
+        </td>
+
+        <td>{{liver.SGOT}} Unit
+        {% if liver.SGOT <= 41 and  liver.SGOT >= 0 %}
+        <span class='glyphicon glyphicon-ok'><font color="#ff3300"></font>(المعدل الطبيعى)</span>
+        {%endif%}
+        {% if liver.SGOT > 41 %}
+        <span class='glyphicon glyphicon-arrow-up'><font color="red">(مرتفع)</font></span>
+        {%endif%}  
+         {% if liver.SGOT < 0 %}
+        <span class='glyphicon glyphicon-arrow-down'><font color="red">(منخفض)</font></span>
+        {%endif%}    
+        </td>
+        
+       {% endfor %}
+      
+       </tr>
+   
+    </tbody>
+  </table> 
+  {%else%}
+     <p> ليس لديك اى تحاليل للكبد :),<hr></p>
+  {%endif%}               
+</div>  
+<div class="container" id='blood'>               
+ <div class="analysis"><b>Blood Analysis(تحليل الدم)</b></div>
+ {% if blood  %}
+    <table class="table table-hover table-bordered table-inverse">
+    <thead>
+      <tr>
+        <th>Platelets\الصفائح الدموية</th>
+        <th>RBC\خلايا الدم الحمراء</th>
+        <th>WBC\خلايا الدم البيضاء</th>
+      </tr>
+    </thead>
+    <tbody>
+         {% for blood in blood %}
+      <tr class="success">
+        <td>{{blood.Platelets}} /MileLLeter
+        {% if blood.Platelets <= 400.000 and  blood.Platelets >= 150.000 %}
+        <span class='glyphicon glyphicon-ok'><font color="#ff3300"></font>(المعدل الطبيعى)</span>
+        {%endif%}
+        {% if blood.Platelets > 400.000 %}
+        <span class='glyphicon glyphicon-arrow-up'><font color="red">(مرتفع)</font></span>
+        {%endif%}  
+         {% if blood.Platelets < 150.000 %}
+        <span class='glyphicon glyphicon-arrow-down'><font color="red">(منخفض)</font></span>
+        {%endif%}    
+        </td>
+       
+
+        <td>{{blood.RBC}} cell/mileLetter
+          {% if blood.RBC <= 10.800 and  blood.RBC >= 4.300 %}
+        <span class='glyphicon glyphicon-ok'><font color="#ff3300"></font>(المعدل الطبيعى)</span>
+        {%endif%}
+        {% if blood.RBC > 10.800 %}
+        <span class='glyphicon glyphicon-arrow-up'><font color="red">(مرتفع)</font></span>
+        {%endif%}  
+         {% if blood.RBC < 4.300 %}
+        <span class='glyphicon glyphicon-arrow-down'><font color="red">(منخفض)</font></span>
+        {%endif%}    
+        </td>
+       
+
+        <td>{{blood.WBC}} Milion Cell/MileLetter
+          {% if bblood.WBC <= 5.9 and  bblood.WBC >= 4.2 %}
+        <span class='glyphicon glyphicon-ok'><font color="#ff3300"></font>(المعدل الطبيعى)</span>
+        {%endif%}
+        {% if bblood.WBC > 5.9  %}
+        <span class='glyphicon glyphicon-arrow-up'><font color="red">(مرتفع)</font></span>
+        {%endif%}  
+         {% if bblood.WBC < 4.2 %}
+        <span class='glyphicon glyphicon-arrow-down'><font color="red">(منخفض)</font></span>
+        {%endif%}    
+        </td>
+
+       {% endfor %}
+       </tr>
+    </tbody>
+  </table>
+  {%else%}
+     <p> ليس لديك اى تحاليل للدم :),<hr></p>
+  {%endif%} 
+                  
+</div> 
+
+
+   
+
+
+ </div>
+</body>
+</html>                
+</body>
+ <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">مركز تقنية الاتصالات والمعلومات (CITC)، جامعة المنصورة 1998-2016 </p>
+      </div>
+    </div>
+
+</html>

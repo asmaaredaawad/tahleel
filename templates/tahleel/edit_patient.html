@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+        {% load staticfiles %}
+        <meta charset="utf-8">
+        <title>Maqal</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        
+        <link ='{% static "http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" %}' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+        <link rel="stylesheet" href="{% static 'css/templatemo_style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/templatemo_misc.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+        <link rel="stylesheet" href="{% static 'css/testimonails-slider.css' %}">
+
+        <script src="{% static 'js/vendor/modernizr-2.6.1-respond-1.1.0.min.js' %}">
+        </script>
+        <style type="text/css">
+        body{
+            background-color: #e6e6e6;
+        }
+        .login{
+                color: #0e385f;
+                font-size: 20px;
+                font-weight: bold;
+                line-height: 29px;
+                margin-top: 40px;
+                margin-bottom: 20px;
+                margin-left: 150px;
+                width: 450px;
+                word-spacing: -1px;
+            }
+            img{
+                width: 100%;
+                height: 100%;
+
+            }
+            .image{
+                margin-left: 820px;
+            }
+            #emp,#pat{
+                margin-left: 100px;
+                margin-bottom: 10px;
+                margin-top: 40px;
+
+                width: 150px;
+
+            }
+            .ayhaga{
+                margin-left: 100px;
+                margin-top: 40px;
+                color: #0e385f;
+                font-size: 20px;
+                font-weight: bold;
+                line-height: 29px;
+                width: 450px;
+                word-spacing: -1px;
+            }
+        </style>
+    </head>
+
+ <!-- ################################################# -->
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Tahleel</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Our Services</a></li> 
+      <li><a href="#">Contact Us</a></li> 
+    </ul>
+  </div>
+</nav>
+
+    <div class="container">
+    <h2 class='col-md-12 text-primary'><i class='glyphicon glyphicon-user'></i><i class='glyphicon glyphicon-user'></i> Edit Personal Data Of Patient...</h2>
+        <div class="col-md-4 col-md-offset-1">
+            
+                    <form role='form' class='form-horizontal col-md-12' action='/tahleel/{{patient.id}}/edit_p/' method='post'>
+                            {% csrf_token %}
+
+                    <div class="form-group ">
+                        <label for="user-name"> Name</label>
+                        <input type="text" class="form-control" placeholder="name" name="name" value="{{ patient.name }}">
+                    </div>  
+                    <div class="form-group ">
+                        <label for="user-name">National_Id</label>
+                        <input type="number" class="form-control" placeholder="national_id" name="national_id" value="{{ patient.national_id }}">
+                    </div>
+                    <div class="form-group ">
+                        <label for="user-name">Address</label>
+                        <input type="text" class="form-control" placeholder="Address" name="address" value="{{ patient.address }}">
+                    </div>        
+                     <div class="form-group">   
+                        <input type='submit' class='btn btn-primary btn-lg' name='ok' value='Edit Patient' />    
+                    </div>
+
+                </form>
+        </div>
+    </div>
+</body>
+</html>
