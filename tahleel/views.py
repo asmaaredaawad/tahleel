@@ -28,7 +28,11 @@ def sigin(request):
 	if user is not None:
 		auth.login(request,user)
 		# print "asmaa"
-		return render_to_response('tahleel/Emp_home.html')
+		request.session['user_id'] = user.id
+
+		print(request.session['user_id']) 
+		return render(request, 'tahleel/Emp_home.html')			
+		# return render_to_response('tahleel/Emp_home.html')
 	else:
 		# print "not asmaa"
 		# return render_to_response('tahleel/invalid.html')
@@ -124,7 +128,14 @@ def add(request):
 #display_all_patient
 def dispaly_all_patient(request):
 	patients=Patient.objects.all();
-	context = {'patients':patients}
+	# context = {'patients':patients}
+	print(request.user.id)
+	user_id=request.user.id
+	user=User.objects.get(pk=user_id)
+	print(user)
+	group=user.groups.values_list('name',flat=True)
+	print(group)
+	context={'patients':patients,'group':group}
 	return render(request,'tahleel/patients.html',context)
 
 # edit patient
@@ -261,6 +272,20 @@ def edit_b(request,patient_id,blood_id):
 def delete_blood(request,patient_id,blood_id):
 	patient = Patient.objects.get(pk=patient_id)
 	blood = patient.bloodanalysis_set.filter(pk=blood_id).delete()
-	return HttpResponseRedirect('/tahleel/%s/more_patient'% patient_id) 		 	
+	return HttpResponseRedirect('/tahleel/%s/more_patient'% patient_id) 
+
+
+
+
+
+
+def logout(request):
+    del request.session['user_id']
+    return render(request,'tahleel/home.html')
+     
+
+
+
+
 
 

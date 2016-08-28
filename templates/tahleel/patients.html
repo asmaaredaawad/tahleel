@@ -85,7 +85,11 @@
         <th>Patient Name</th>
         <th>Address</th>
         <th>National_id</th>
+        {% for group in group %}
+            {% if group.name == can_edit %}
         <th>Controls</th>
+        {% endif %}
+            {% endfor %}
       </tr>
     </thead>
     <tbody>
@@ -94,10 +98,15 @@
         <td>{{patient.name}}</td>
         <td>{{patient.address}}</td>
         <td>{{patient.national_id}}</td>
+        {% for group in group %}
+            {% if group.name == can_edit %}
         <td>
-            <a href="/tahleel/{{patient.id}}/more_patient" class="btn btn-primary">more about patient</a>
-            <a href="/tahleel/{{patient.id}}/edit_patient" class="btn btn-success">edit</a>
-            <a href="/tahleel/{{patient.id}}/delete_patient" class="btn btn-danger">delete</a>
+        
+                <a href="/tahleel/{{patient.id}}/edit_patient" class="btn btn-success">edit</a>    
+                <a href="/tahleel/{{patient.id}}/more_patient" class="btn btn-primary">more about patient</a>
+                <a href="/tahleel/{{patient.id}}/delete_patient" class="btn btn-danger">delete</a>
+            {% endif %}
+            {% endfor %}
 
         </td>
       

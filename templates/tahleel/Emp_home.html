@@ -77,12 +77,18 @@
   </div>
 </nav>
 <!-- ########################## -->
+{% if request.user.is_authenticated %}
 <div class="login">Our Medical Labartory helps us to follow your healthy status</div>
 <a href="/tahleel/display" id="emp"class="btn btn-primary">Display_all_patient</a>
 
  <a href="/tahleel/add_patient"id="pat" class="btn btn-success">Add New patient</a>
 
 <div class="image"><img src="{%static 'images/img.jpg' %}" /></div>
+ {% else %}
+ <p>Sorry You Must Login !!!</p>
+<a href="/tahleel/login_employee"id="pat" class="btn btn-success">Login</a>
+
+{% endif %}
 
 
 </body>

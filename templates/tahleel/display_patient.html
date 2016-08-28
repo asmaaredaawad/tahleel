@@ -60,7 +60,7 @@
                 word-spacing: -1px;
             }
             .analysis{
-                color: magenta;
+                color: #00cc66;
                 font-size: 20px;
 
             }
@@ -90,7 +90,11 @@
         <th>Patient Name</th>
         <th>Address</th>
         <th>National_id</th>
-        <th>Controls</th>
+        {% for group in group %}
+            {% if group.name == can_edit %}
+                <th>Controls</th>
+            {% endif %}
+        {% endfor %} 
       </tr>
     </thead>
     <tbody>
@@ -98,11 +102,15 @@
         <td>{{patient.name}}</td>
         <td>{{patient.address}}</td>
         <td>{{patient.national_id}}</td>
-        <td>
-            <a href="/tahleel/{{patient.id}}/edit_patient" class="btn btn-success">edit</a>
-            <a href="/tahleel/{{patient.id}}/delete_patient" class="btn btn-danger">delete</a>
+        {% for group in group %}
+            {% if group.name == can_edit %}
+              <td>
+                  <a href="/tahleel/{{patient.id}}/edit_patient" class="btn btn-success">edit</a>
+                  <a href="/tahleel/{{patient.id}}/delete_patient" class="btn btn-danger">delete</a>
 
-        </td>
+              </td>
+            {% endif %}
+         {% endfor %}  
       
       </tr>
     </tbody>
@@ -114,14 +122,18 @@
     
     <div class='login' align="center">Medical Information About Patient</div>
 
-    <div class="analysis">Liver Analysis(تحليلالكبد)</div>
+    <div class="analysis">Liver Analysis(تحليل الكبد)</div>
     <table class="table table-hover">
     <thead>
       <tr>
         <th>Albumin</th>
         <th>SGPT</th>
         <th>SGOT</th>
-        <th>Controls</th>
+         {% for group in group %}
+            {% if group.name == can_edit %}
+              <th>Controls</th>
+          {% endif %}
+            {% endfor %}    
       </tr>
     </thead>
     <tbody>
@@ -130,13 +142,17 @@
         <td>{{liver.Albumin}}</td>
         <td>{{liver.SGPT}}</td>
         <td>{{liver.SGOT}}</td>
+        {% for group in group %}
+            {% if group.name == can_edit %}
         <td>
            <a href="/tahleel/{{patient.id}}/{{liver.id}}/edit_liver" class="btn btn-success">Edit</a>
            <a href="/tahleel/{{patient.id}}/{{liver.id}}/delete_liver" class="btn btn-danger">delete</a>
-
         </td>
+        {% endif %}
+      {% endfor %} 
        {% endfor %}
        <td><a href="/tahleel/{{patient.id}}/liver" class="btn btn-primary">Add New  Liver Analysis</a></td>
+            
        </tr>
     </tbody>
   </table>                
@@ -149,7 +165,11 @@
         <th>Platelets</th>
         <th>RBC</th>
         <th>WBC</th>
-        <th>Controls</th>
+        {% for group in group %}
+            {% if group.name == can_edit %}
+                <th>Controls</th>
+            {% endif %}
+        {% endfor %}          
       </tr>
     </thead>
     <tbody>
@@ -158,14 +178,17 @@
         <td>{{blood.Platelets}}</td>
         <td>{{blood.RBC}}</td>
         <td>{{blood.WBC}}</td>
+        {% for group in group %}
+            {% if group.name == can_edit %}
         <td>
-            
-       
         <a href="/tahleel/{{patient.id}}/{{blood.id}}/edit_blood" class="btn btn-success">Edit</a>
         <a href="/tahleel/{{patient.id}}/{{blood.id}}/delete_blood" class="btn btn-danger">delete</a>
         </td>
+        {% endif %}
+        {% endfor %}
        {% endfor %}
        <td> <a href="/tahleel/{{patient.id}}/blood" class="btn btn-primary"> Add New Blood Analysis</a></td>
+        
        </tr>
     </tbody>
   </table>
