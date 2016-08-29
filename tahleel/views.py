@@ -69,35 +69,6 @@ def sigin_pat(request):
 		return HttpResponseRedirect('/tahleel/login_patient')	
 		# return render_to_response('tahleel/invalid_pat.html')
 
-# for recive request from web services
-def login_web_service(request):
-	national_id=request.POST.get('name')
-	password=request.POST.get('password')
-	c= {}
-	c.update(csrf(request))
-	data={}
-	data['national_id']=national_id
-	data['password']=password
-	data['c']=c
-	json_data=json.dumps(str(data))
-	return HttpResponse(json_data,content_type='application/json')
-	# patient1=Patient.objects.filter(national_id=national_id,password=password).exists()
-	# if patient1 :
-	# 	patient=Patient.objects.filter(national_id=national_id,password=password).values_list()
-	# 	json_data = json.dumps(str(patient))
-	# 	return HttpResponse(json_data, content_type='application/json')
-	# else:
-	# 	return HttpResponse('failed',content_type='application/json')	
-
-# for web services 
-def dispaly(request):
-	patients=Patient.objects.all().values_list();
-	# context = {'patients':patients}
-	json_data = json.dumps(str(patients))
-	return HttpResponse(json_data, content_type='application/json')
-	# print(json_data) 
-
-
 def invalid_pat(request):
 	c= {}
 	c.update(csrf(request))
@@ -274,14 +245,49 @@ def delete_blood(request,patient_id,blood_id):
 	blood = patient.bloodanalysis_set.filter(pk=blood_id).delete()
 	return HttpResponseRedirect('/tahleel/%s/more_patient'% patient_id) 
 
-
-
-
-
+# ________________________________________________________________
+# logout
 
 def logout(request):
     del request.session['user_id']
     return render(request,'tahleel/home.html')
+
+
+
+#__________________________________________________________________
+#web Services
+
+# for recive request from web services
+def login_web_service(request):
+	national_id=request.GET.get('name')
+	password=request.GET.get('password')
+	# c= {}
+	# c.update(csrf(request))
+	data={}
+	patient1=Patient.objects.filter(national_id=national_id,password=password).exists()
+	if patient1 :
+		patient=Patient.objects.filter(national_id=national_id,password=password).values_list()
+		patient2=Patient.objects.get(national_id=national_id)
+		liver=patient2.liveranalysis_set.all().values_list()
+		blood=patient2.bloodanalysis_set.all().values_list()
+		context={'patient':patient,'liver':liver,'blood':blood}
+		json_data = json.dumps(str(context))
+		return HttpResponse(json_data, content_type='application/json')
+	else:
+		msg="not found"
+		data['msg']=msg
+		json_data=json.dumps(data)
+		return HttpResponse(json_data,content_type='application/json')	
+
+# for web services 
+def dispaly(request):
+	patients=Patient.objects.all().values_list();
+	# context = {'patients':patients}
+	json_data = json.dumps(str(patients))
+	return HttpResponse(json_data, content_type='application/json')
+	# print(json_data) 
+
+
      
 
 
