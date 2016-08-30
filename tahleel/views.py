@@ -1,5 +1,5 @@
 from django.shortcuts import render,render_to_response
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login ,logout
 from django.http import HttpResponse,HttpResponseRedirect,Http404
 from django.core.context_processors import csrf
 
@@ -80,7 +80,8 @@ def invalid_pat(request):
 def add_patient(request):
 	c= {}
 	c.update(csrf(request))
- 	return render_to_response('tahleel/add_patient.html',c)
+	return render(request, 'tahleel/add_patient.html',c)			
+
 
 def add(request):	
 	if request.method == 'POST':
@@ -99,14 +100,10 @@ def add(request):
 #display_all_patient
 def dispaly_all_patient(request):
 	patients=Patient.objects.all();
-	# context = {'patients':patients}
-	print(request.user.id)
 	user_id=request.user.id
 	user=User.objects.get(pk=user_id)
-	print(user)
 	group=user.groups.values_list('name',flat=True)
-	print(group)
-	context={'patients':patients,'group':group}
+	context={'patients':patients,'group':group,'liver':liver,'blood':blood}
 	return render(request,'tahleel/patients.html',context)
 
 # edit patient
@@ -137,8 +134,11 @@ def more_patient(request,patient_id):
 	patient = Patient.objects.get(pk=patient_id)
 	liver = patient.liveranalysis_set.all()
 	blood = patient.bloodanalysis_set.all()
-
-	context = {'patient':patient,'liver':liver,'blood':blood}
+	user_id=request.user.id
+	user=User.objects.get(pk=user_id)
+	# get group which user has
+	group=user.groups.values_list('name',flat=True)
+	context = {'patient':patient,'liver':liver,'blood':blood,'group':group}
 	return render(request,'tahleel/display_patient.html',context)
 # __________________________________________________________________
 
@@ -250,6 +250,7 @@ def delete_blood(request,patient_id,blood_id):
 
 def logout(request):
     del request.session['user_id']
+    # auth.logout[request]
     return render(request,'tahleel/home.html')
 
 

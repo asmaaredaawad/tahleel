@@ -14,6 +14,7 @@ urlpatterns = [
    	# url(r'^auth/$',sigin),
     # url(r'^loggedin/$',loggedin),
     url(r'^invalid/$',invalid),
+        url(r'^logout/$',logout),
 
     # add new patient
     url(r'^add_patient/$',add_patient),

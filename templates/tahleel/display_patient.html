@@ -3,11 +3,11 @@
 <head>
         {% load staticfiles %}
         <meta charset="utf-8">
-        <title>Maqal</title>
+        <title>Tahleel</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         
-        <link ='{% static "http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" %}' rel='stylesheet' type='text/css'>
+        <!-- <link ='{% static "http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" %}' rel='stylesheet' type='text/css'> -->
 
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
@@ -16,8 +16,7 @@
         <link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
         <link rel="stylesheet" href="{% static 'css/testimonails-slider.css' %}">
 
-        <script src="{% static 'js/vendor/modernizr-2.6.1-respond-1.1.0.min.js' %}">
-        </script>
+      
         <style type="text/css">
         body{
             background-color: #e6e6e6;
@@ -33,6 +32,16 @@
                 width: 450px;
                 word-spacing: -1px;
             }
+            .all{
+            width: 800px;
+            height: 730px;
+            border: 2px solid;
+            border-radius: 25px;
+            display: block;
+            vertical-align: center;
+            margin-left: 250px;
+            background-color: #f2f2f2;
+        }
             img{
                 width: 100%;
                 height: 100%;
@@ -64,6 +73,21 @@
                 font-size: 20px;
 
             }
+            .table{
+              width: 60%;
+              height: 50px;
+            }
+             #logout{
+                margin-left: 750px;
+            }
+             #footer {
+              height: 50px;
+              background-color: black;
+              display: block;
+            }
+            #clear{
+              clear: both;
+            }
         </style>
     </head>
 
@@ -79,10 +103,20 @@
       <li><a href="#">About Us</a></li>
       <li><a href="#">Our Services</a></li> 
       <li><a href="#">Contact Us</a></li> 
+      <li id='logout'><a href="/tahleel/logout">logout</a></li> 
+
     </ul>
   </div>
 </nav>
+
+
+ <!-- ################################################# -->
+
+
+<div class="all">
 <div class="container">
+        {% if request.user.is_authenticated %}
+
     <table class="table table-hover">
     <div class='login' align="center">Personal Information About Patient</div>
     <thead>
@@ -137,6 +171,7 @@
       </tr>
     </thead>
     <tbody>
+    {% if liver %}
          {% for liver in liver %}
       <tr class="success">
         <td>{{liver.Albumin}}</td>
@@ -151,7 +186,12 @@
         {% endif %}
       {% endfor %} 
        {% endfor %}
-       <td><a href="/tahleel/{{patient.id}}/liver" class="btn btn-primary">Add New  Liver Analysis</a></td>
+       {%else %}
+       <td>
+         <p>هذا المريض ليس له تحليل للدم</p>
+         <a href="/tahleel/{{patient.id}}/liver" class="btn btn-primary">Add New  Liver Analysis</a>
+       </td>
+       {% endif %}
             
        </tr>
     </tbody>
@@ -173,6 +213,7 @@
       </tr>
     </thead>
     <tbody>
+    {% if blood %}
          {% for blood in blood %}
       <tr class="success">
         <td>{{blood.Platelets}}</td>
@@ -187,12 +228,29 @@
         {% endif %}
         {% endfor %}
        {% endfor %}
-       <td> <a href="/tahleel/{{patient.id}}/blood" class="btn btn-primary"> Add New Blood Analysis</a></td>
+       {% else %}
+       <td>
+        <p>هذا المريض ليس له تحليل كبد</p>
+         <a href="/tahleel/{{patient.id}}/blood" class="btn btn-primary"> Add New Blood Analysis</a>
+       </td>
+       {%endif%}
         
        </tr>
     </tbody>
   </table>
+  {% else %}
+         <p>Sorry You Must Login !!!</p>
+        <a href="/tahleel/login_employee"id="pat" class="btn btn-success">Login</a>
+
+ {% endif %}
                   
-</div>                 
+</div> 
+</div>                
 </body>
+<div id='clear'></div>
+<div id="footer">
+      <div class="container">
+        <p class="text-muted credit">مركز تقنية الاتصالات والمعلومات (CITC)، جامعة المنصورة 1998-2016 </p>
+      </div>
+    </div>
 </html>
