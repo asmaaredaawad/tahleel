@@ -24,6 +24,9 @@ class LiverAnalysis(models.Model):
 	SGPT=models.IntegerField(default='0')
 	SGOT=models.IntegerField(default='0')
 	patient = models.ForeignKey(Patient,on_delete=models.CASCADE)
+	
+
+        
 	 
 
 class BloodAnalysis(models.Model):

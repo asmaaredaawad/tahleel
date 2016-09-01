@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from .forms import *
 from backends import *
 import json
+from django.http import JsonResponse
 
 
 from .models import *
@@ -267,26 +268,19 @@ def login_web_service(request):
 	data={}
 	patient1=Patient.objects.filter(national_id=national_id,password=password).exists()
 	if patient1 :
-		patient=Patient.objects.filter(national_id=national_id,password=password).values_list()
-		patient2=Patient.objects.get(national_id=national_id)
-		liver=patient2.liveranalysis_set.all().values_list()
-		blood=patient2.bloodanalysis_set.all().values_list()
-		context={'patient':patient,'liver':liver,'blood':blood}
-		json_data = json.dumps(str(context))
-		return HttpResponse(json_data, content_type='application/json')
+		patient=Patient.objects.get(national_id=national_id,password=password)
+		blood=BloodAnalysis.objects.get(patient=patient)
+		liver=LiverAnalysis.objects.get(patient=patient)
+		patient_data={'name':patient.name,'national_id':patient.national_id,'address':patient.address,
+				'Albumin':liver.Albumin,'SGPT':liver.SGPT,'SGOT':liver.SGOT,
+				'Platelets':blood.Platelets,'WBC':blood.WBC,'RBC':blood.RBC}
+		return JsonResponse(patient_data,safe=False)
 	else:
-		msg="not found"
+		msg="Username or Password invalid !! try login again"
 		data['msg']=msg
 		json_data=json.dumps(data)
 		return HttpResponse(json_data,content_type='application/json')	
 
-# for web services 
-def dispaly(request):
-	patients=Patient.objects.all().values_list();
-	# context = {'patients':patients}
-	json_data = json.dumps(str(patients))
-	return HttpResponse(json_data, content_type='application/json')
-	# print(json_data) 
 
 
      
